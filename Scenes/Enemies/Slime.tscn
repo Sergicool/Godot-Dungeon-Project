@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://dnlimg5t0pe7n"]
+
+[ext_resource type="Texture2D" uid="uid://blyicpcnqd3dd" path="res://Assets/Art/Sprites/Slime/Green_Slime_Idle.png" id="1_0p1xi"]
+[ext_resource type="PackedScene" uid="uid://b0lnm4ycqcijj" path="res://Scenes/Components/HealthComponent.tscn" id="2_h54y1"]
+[ext_resource type="PackedScene" uid="uid://bet0ekoclovcn" path="res://Scenes/Components/VelocityComponent.tscn" id="3_bdhq4"]
+[ext_resource type="PackedScene" uid="uid://ce0k5sq1jbpi3" path="res://Scenes/Components/HitboxComponent.tscn" id="4_qbbdy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0f88p"]
+atlas = ExtResource("1_0p1xi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5csu"]
+atlas = ExtResource("1_0p1xi")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2sdi3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0f88p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5csu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5tctt"]
+size = Vector2(12, 10)
+
+[node name="Slime" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_2sdi3")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_h54y1")]
+
+[node name="VelocityComponent" parent="." instance=ExtResource("3_bdhq4")]
+
+[node name="HitboxComponent" parent="." instance=ExtResource("4_qbbdy")]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_5tctt")

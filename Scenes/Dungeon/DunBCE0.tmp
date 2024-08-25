@@ -1,0 +1,18 @@
+[gd_scene load_steps=6 format=3 uid="uid://cadibv53tu230"]
+
+[ext_resource type="Script" path="res://Scripts/Systems/DungeonManagementSystem.gd" id="1_bh7sn"]
+[ext_resource type="PackedScene" uid="uid://bch613jwuq7in" path="res://Scenes/ECS/EntityFactory.tscn" id="2_hyson"]
+[ext_resource type="PackedScene" uid="uid://c1y0vpfdb5nsu" path="res://Scenes/ECS/EntityManager.tscn" id="3_6o5mw"]
+[ext_resource type="PackedScene" uid="uid://cc5362bu5bgu5" path="res://Scenes/ECS/RoomFactory.tscn" id="4_lomyl"]
+[ext_resource type="PackedScene" uid="uid://d0hdtbpd36fms" path="res://Scenes/ECS/RoomManager.tscn" id="5_822u8"]
+
+[node name="Dungeon" type="Node2D"]
+script = ExtResource("1_bh7sn")
+
+[node name="EntityFactory" parent="." instance=ExtResource("2_hyson")]
+
+[node name="EntityManager" parent="." instance=ExtResource("3_6o5mw")]
+
+[node name="RoomFactory" parent="." instance=ExtResource("4_lomyl")]
+
+[node name="RoomManager" parent="." instance=ExtResource("5_822u8")]

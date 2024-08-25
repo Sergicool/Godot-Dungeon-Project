@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cadibv53tu230"]
+
+[ext_resource type="Script" path="res://Scripts/Systems/DungeonManagementSystem.gd" id="1_bh7sn"]
+
+[node name="Dungeon" type="Node2D"]
+script = ExtResource("1_bh7sn")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
