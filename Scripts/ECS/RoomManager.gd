@@ -5,12 +5,14 @@ class_name RoomManager
 
 # Diccionario para almacenar las salas generadas por posición
 var rooms_by_position : Dictionary = {}
+# Diccionario para almacenar el tipo de las salas generadas por posición
 var type_of_room_by_position : Dictionary = {}
 
-# Crea y posiciona una sala en la mazmorra
+# Crea un tipo de una sala y se coloca en las posiciones indicadas
 func spawn_room(room_type: String, grid_positions: Array) -> Node2D:
 	# Instanciamos la sala
 	var room = room_factory.create_room(room_type)
+	# Obtenemos las dimensiones de su tipo de sala
 	var room_size = Vector2(room_factory.get_cell_width(), room_factory.get_cell_height())
 	if room:
 		# Movemos la sala de manera que encaje con los tilemaps de la escena
@@ -23,10 +25,10 @@ func spawn_room(room_type: String, grid_positions: Array) -> Node2D:
 		return room
 	return null
 
-# Los tilemaps de las salas tienen como origen la sala mas abajo a la derecha, esta funcion ayuda la
-# funcion spawn_room a encontrar la casilla que ocupe mas abajo a la izquierda
+# Los tilemaps de las salas tienen como origen la sala mas abajo a la derecha, esta funcion obtiene
+# dicha casilla entre las posiciones de la matriz dadas
 func get_spawn_position(grid_positions: Array) -> Vector2:
-	# Inicializar la posición más abajo a la izquierda como la primera en la lista
+	# Inicializar la primera en la lista como la posición más abajo a la izquierda
 	var spawn_position = grid_positions[0]
 	for _position in grid_positions:
 		# Verificar si la posición actual está más abajo (mayor y) o
@@ -54,7 +56,6 @@ func get_potential_positions() -> Array:
 	var occupied_dict = {}
 	for pos in occupied_positions:
 		occupied_dict[pos] = true
-	
 	# Iterar sobre todas las posiciones ocupadas
 	for pos in occupied_positions:
 		for dir in directions:
@@ -66,24 +67,20 @@ func get_potential_positions() -> Array:
 					potential_positions.append(adjacent)
 	return potential_positions
 
+# Obtiene la sala que ocupa una posicion
 func get_room_by_position(room_position: Vector2) -> Node2D:
 	if rooms_by_position.has(room_position):
 		return rooms_by_position[room_position]
 	return null
 	
-func get_room_type_by_position(room_position : Vector2) -> String:
-	var room = get_room_by_position(room_position)
-	if room:
-		return room.type
-	return "void"
-	
-# Obtiene el componente de una sala existente en una posición específica
+# Obtiene el EoomComponent de una sala que ocupa una posicion
 func get_room_component_by_position(room_position: Vector2) -> RoomComponent:
 	var room = get_room_by_position(room_position)
 	if room:
 		return room.get_node("RoomComponent")
 	return null
 
+# Obtiene las posiciones que ocupa una sala
 func get_room_positions(room: Node2D) -> Array:
 	var positions = []
 	for _position in rooms_by_position:
@@ -91,25 +88,29 @@ func get_room_positions(room: Node2D) -> Array:
 			positions.append(_position)
 	return positions
 
-func get_room_height_by_type(room_type: String) -> int:
-	return room_factory.get_room_height_by_type(room_type)
-	
-func get_room_width_by_type(room_type: String) -> int:
-	return room_factory.get_room_width_by_type(room_type)
-	
-func get_random_room_type() -> String:
-	return room_factory.get_random_room_type()
-	
-func get_random_room_type_with_chances() -> String:
-	return room_factory.get_random_room_type_with_chances()
-	
 # Obtiene todas las salas generadas
 func get_all_rooms() -> Array:
 	return rooms_by_position.values()
 
-# Limpia todas las salas generadas
+# Limpia todas las salas generadas y libera sus instancias
 func clear_rooms():
 	for room in rooms_by_position.values():
 		if room:
 			room.queue_free()
 	rooms_by_position.clear()
+
+#---------------------------------------#
+# Funciones que solicita al RoomFactory #
+#---------------------------------------#
+
+func get_room_height_by_type(room_type: String) -> int:
+	return room_factory.get_room_height_by_type(room_type)
+
+func get_room_width_by_type(room_type: String) -> int:
+	return room_factory.get_room_width_by_type(room_type)
+
+func get_random_room_type() -> String:
+	return room_factory.get_random_room_type()
+	
+func get_random_room_type_with_chances() -> String:
+	return room_factory.get_random_room_type_with_chances()
