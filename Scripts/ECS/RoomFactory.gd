@@ -2,8 +2,15 @@ extends Node2D
 class_name RoomFactory
 
 # Alto y ancho de las salas por pixeles/tile * tiles/celda
-var CELL_HEIGHT = 16 * 12
-var CELL_WIDTH = 16 * 20
+var CELL_HEIGHT = 16
+var CELL_WIDTH = 16
+var ROOM_CELL_HEIGHT = 12
+var ROOM_CELL_WIDTH = 20
+var ROOM_HEIGHT = CELL_HEIGHT * ROOM_CELL_HEIGHT
+var ROOM_WIDTH = CELL_WIDTH * ROOM_CELL_WIDTH
+
+var horizontal_door = preload("res://Scenes/Dungeon/Doors/HorizontalDoor.tscn")
+var vertical_door = preload("res://Scenes/Dungeon/Doors/VerticalDoor.tscn")
 
 # Diccionario con salas las cuales pueden tener varias instancias por piso
 var rooms: Dictionary = {
@@ -18,12 +25,12 @@ var unique_rooms: Dictionary = {
 }
 
 # Obtiene el alto de una sala
-func get_cell_height() -> int:
-	return CELL_HEIGHT
+func get_room_height() -> int:
+	return ROOM_HEIGHT
 
 # Obtiene el ancho de una sala
-func get_cell_width() -> int:
-	return CELL_WIDTH
+func get_room_width() -> int:
+	return ROOM_WIDTH
 
 # Obtiene el alto de un tipo de sala
 func get_room_height_by_type(room_type: String) -> int:
@@ -83,3 +90,89 @@ func create_room(room_type: String) -> Node2D:
 		room.get_node("RoomComponent").type_of_room = room_type
 		return room
 	return null
+	
+func create_door(room : TileMap, cell_position : Vector2, direction : Vector2):
+	var door_position
+	var door_positions
+	var room_position = room.position / Vector2(ROOM_WIDTH, ROOM_HEIGHT)
+	# Calculamos el offset para la posicion de la puerta en caso de ser una sala mayor a una 1x1
+	var door_position_offset = (cell_position - room_position) * Vector2(ROOM_CELL_WIDTH, ROOM_CELL_HEIGHT)
+	# Si la direccion es vertical
+	if direction == Vector2.UP or direction == Vector2.DOWN:
+		# Posicion del borde superior de la sala
+		if direction == Vector2.UP:
+			door_position = direction * Vector2(0, ROOM_HEIGHT/CELL_HEIGHT/2)
+		# Posicion del borde inferior de la sala
+		if direction == Vector2.DOWN:
+			door_position = direction * Vector2(0, ROOM_HEIGHT/CELL_HEIGHT/2 - 1)
+		# Le sumamos el offset
+		door_position += door_position_offset
+		# Casillas que hay que modificar para hacer espacio a la puerta de arriba a abajo
+		door_positions = [
+			door_position + Vector2.LEFT * 3,
+			door_position + Vector2.LEFT * 2,
+			door_position + Vector2.LEFT,
+			door_position,
+			door_position + Vector2.RIGHT,
+			door_position + Vector2.RIGHT * 2
+		]
+		# Reemplazamos las casillas para crear una conexion entre salas
+		for position_in_cell in door_positions:
+			# Borramos la celda
+			room.erase_cell(0, position_in_cell)
+			# Colocar borde izquierdo
+			if position_in_cell == door_positions[0]:
+				if direction == Vector2.UP:
+					room.set_cell(0, position_in_cell, 0, Vector2i(5, 11))
+				else:
+					room.set_cell(0, position_in_cell, 0, Vector2i(5, 10))
+			# Colocar borde derecho
+			elif position_in_cell == door_positions[door_positions.size() - 1]:
+				if direction == Vector2.UP:
+					room.set_cell(0, position_in_cell, 0, Vector2i(4, 11))
+				else:
+					room.set_cell(0, position_in_cell, 0, Vector2i(4, 10))
+			# Colocar casilla intermedia
+			else:
+				room.set_cell(0, position_in_cell, 0, Vector2i(1, 5))
+	# Si la direccion es horizontal		
+	elif direction == Vector2.LEFT or direction == Vector2.RIGHT:
+		# Posicion del borde izquierdo
+		if direction == Vector2.LEFT:
+			door_position = direction * Vector2(ROOM_WIDTH/CELL_WIDTH/2, 0)
+		# Posicion del borde derecha
+		if direction == Vector2.RIGHT:
+			door_position = direction * Vector2(ROOM_WIDTH/CELL_WIDTH/2 - 1, 0)
+		# Le sumamos el offset
+		door_position += door_position_offset
+		# Casillas que hay que modificar para hacer espacio a la puerta de la izquierda o derecha
+		door_positions = [
+			door_position + Vector2.UP * 3,
+			door_position + Vector2.UP * 2,
+			door_position + Vector2.UP,
+			door_position,
+			door_position + Vector2.DOWN,
+			door_position + Vector2.DOWN * 2
+		]
+		# Reemplazamos las casillas para crear una conexion entre salas
+		for position_in_cell in door_positions:
+			# Borramos la celda
+			room.erase_cell(0, position_in_cell)
+			# Colocar borde superior
+			if position_in_cell == door_positions[0]:
+				if direction == Vector2.LEFT:
+					room.set_cell(0, position_in_cell, 0, Vector2i(5, 11))
+				else:
+					room.set_cell(0, position_in_cell, 0, Vector2i(4, 11))
+			# Colocar borde inferior
+			elif position_in_cell == door_positions[door_positions.size() - 1]:
+				if direction == Vector2.LEFT:
+					room.set_cell(0, position_in_cell, 0, Vector2i(5, 10))
+				else:
+					room.set_cell(0, position_in_cell, 0, Vector2i(4, 10))
+			# Colocar casilla intermedia
+			else:
+				room.set_cell(0, position_in_cell, 0, Vector2i(1, 5))
+				
+func spawn_door(direction : Vector2):
+	pass

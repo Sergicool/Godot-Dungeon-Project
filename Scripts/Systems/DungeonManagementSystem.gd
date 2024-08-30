@@ -25,10 +25,14 @@ var current_floor = 0
 var player = null
 
 func _ready():
+	var start_room_position = [Vector2.ZERO]
 	# Generar el primer piso
 	generate_floor()
+	# Conectar salas
+	generate_conections()
 	# Instanciar el jugador en la sala inicial
-	player = entity_manager.spawn_entity("player", Vector2.ZERO)
+	var initial_position = room_manager.get_room_by_type("start_room").position
+	player = entity_manager.spawn_entity("player", initial_position)
 
 # Funcion para generar la estructura de un piso completo
 func generate_floor():
@@ -155,6 +159,17 @@ func place_room_in_grid(room : Node2D, grid: Array):
 		var grid_x = room_position.x
 		var grid_y = room_position.y
 		grid[grid_y][grid_x] = room
+
+func generate_conections():
+	var rooms_by_position = room_manager.get_all_rooms()
+	# Por cada posicion que ocupa una sala
+	for cell_position in rooms_by_position:
+		print("---",cell_position,"---")
+		# Obtenemos la sala que ocupa dicha posicion
+		room_manager.create_door(cell_position, Vector2.UP)
+		room_manager.create_door(cell_position, Vector2.DOWN)
+		room_manager.create_door(cell_position, Vector2.LEFT)
+		room_manager.create_door(cell_position, Vector2.RIGHT)
 
 # Imprime el estado actual del grid en la consola (Para depurar)
 func print_grid(grid: Array) -> void:

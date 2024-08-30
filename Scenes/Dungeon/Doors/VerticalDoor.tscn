@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjkkvfu7vjiku"]
+
+[ext_resource type="TileSet" uid="uid://der6tpnaox0qq" path="res://Assets/Art/Tilesets/Dungeon/DungeonTileSet.tres" id="1_4rmhq"]
+
+[node name="TileMap" type="TileMap"]
+tile_set = ExtResource("1_4rmhq")
+format = 2
+layer_0/tile_data = PackedInt32Array(-65536, 524288, 1, 0, 524288, 1)

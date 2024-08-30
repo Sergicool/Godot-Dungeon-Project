@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://der6tpnaox0qq" path="res://Assets/Art/Tilesets/Dungeon/DungeonTileSet.tres" id="1_qo8ty"]
 [ext_resource type="PackedScene" uid="uid://cyfxa2tnf73ck" path="res://Scenes/Components/RoomComponent.tscn" id="2_uami4"]
 
-[node name="StartRoom" type="TileMap"]
+[node name="TileMap" type="TileMap"]
 z_index = -1
 tile_set = ExtResource("1_qo8ty")
 format = 2
