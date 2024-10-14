@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://d1ye4p0inu0tg"]
+[gd_scene load_steps=5 format=3 uid="uid://d1ye4p0inu0tg"]
 
 [ext_resource type="TileSet" uid="uid://der6tpnaox0qq" path="res://Assets/Art/Tilesets/Dungeon/DungeonTileSet.tres" id="1_b80jy"]
 [ext_resource type="PackedScene" uid="uid://cyfxa2tnf73ck" path="res://Scenes/Components/RoomComponent.tscn" id="2_22gmy"]
+[ext_resource type="PackedScene" uid="uid://bl5g5kwwnke7d" path="res://Scenes/Components/EntityDetectorComponent.tscn" id="3_87ou4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7k4u2"]
+size = Vector2(596, 148)
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource("1_b80jy")
@@ -10,3 +14,9 @@ layer_0/tile_data = PackedInt32Array(0, 65536, 5, 65535, 65536, 5, -1, 65536, 5,
 
 [node name="RoomComponent" parent="." instance=ExtResource("2_22gmy")]
 width = 2
+
+[node name="EntityDetectorComponent" parent="." instance=ExtResource("3_87ou4")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntityDetectorComponent"]
+position = Vector2(160, 0)
+shape = SubResource("RectangleShape2D_7k4u2")

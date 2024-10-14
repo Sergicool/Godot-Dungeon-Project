@@ -18,7 +18,7 @@ var easy_difficulty_floor_properties : Dictionary = {
 }
 
 # Probabilidad en % de generar un camino adicional a una sala
-var generation_chance = 20
+var generation_chance = 200
 # Piso actual
 var current_floor = 0
 # Instancia del jugador
@@ -61,8 +61,9 @@ func generate_floor():
 	var generated_rooms = 1
 	# Intentos de generacion para evitar bucles infinitos
 	var generation_tries = 0
+	var max_generation_tries = num_rooms * num_rooms
 	# Generamos el resto de salas del piso hasta generar todas o agotar los intentos
-	while generated_rooms < num_rooms or generation_tries > 100:
+	while generated_rooms < num_rooms and generation_tries < max_generation_tries:
 		# Obtenemos posibles posiciones para generar nuevas salas
 		var potential_positions = room_manager.get_potential_positions()
 		# Seleccionamos una posicion
@@ -162,14 +163,15 @@ func place_room_in_grid(room : Node2D, grid: Array):
 
 func generate_conections():
 	var rooms_by_position = room_manager.get_all_rooms()
-	# Por cada posicion que ocupa una sala
+	# Por cada posicion que ocupa unaSS sala
 	for cell_position in rooms_by_position:
-		print("---",cell_position,"---")
 		# Obtenemos la sala que ocupa dicha posicion
-		room_manager.create_door(cell_position, Vector2.UP)
-		room_manager.create_door(cell_position, Vector2.DOWN)
-		room_manager.create_door(cell_position, Vector2.LEFT)
-		room_manager.create_door(cell_position, Vector2.RIGHT)
+		if(room_manager.get_room_by_position(cell_position + Vector2.DOWN)):
+			room_manager.create_door(cell_position, Vector2.DOWN)
+			room_manager.create_door(cell_position + Vector2.DOWN, Vector2.UP)
+		if(room_manager.get_room_by_position(cell_position + Vector2.RIGHT)):
+			room_manager.create_door(cell_position, Vector2.RIGHT)
+			room_manager.create_door(cell_position + Vector2.RIGHT, Vector2.LEFT)
 
 # Imprime el estado actual del grid en la consola (Para depurar)
 func print_grid(grid: Array) -> void:

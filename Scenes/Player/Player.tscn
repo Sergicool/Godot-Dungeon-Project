@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://dykbeofqmt563"]
+[gd_scene load_steps=75 format=3 uid="uid://dykbeofqmt563"]
 
 [ext_resource type="Script" path="res://Scripts/Systems/PlayerMovementSystem.gd" id="1_bnla6"]
 [ext_resource type="Texture2D" uid="uid://dwnp0clp5jx0p" path="res://Assets/Art/Sprites/Knight/Blue Knight idle Sprite-sheet 16x16.png" id="1_kysck"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://k3q130bjet6u" path="res://Assets/Art/Sprites/Knight/Blue Knight run Sprite-sheet 16x17.png" id="3_tj8mr"]
 [ext_resource type="Script" path="res://Scripts/Components/VelocityComponent.gd" id="4_kk8tv"]
 [ext_resource type="Script" path="res://Scripts/Components/HealthComponent.gd" id="4_lw7iy"]
+[ext_resource type="PackedScene" uid="uid://c1vu7k5qppn40" path="res://Scenes/Components/CameraComponent.tscn" id="7_8u6c2"]
+[ext_resource type="Script" path="res://Scripts/Systems/CameraMovementSystem.gd" id="8_hkcsd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ym2v"]
 atlas = ExtResource("1_kysck")
@@ -509,7 +511,7 @@ autoplay = "idle_down"
 
 [node name="VelocityComponent" type="Node2D" parent="."]
 script = ExtResource("4_kk8tv")
-velocity = 300.0
+velocity = 140.0
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("4_lw7iy")
@@ -526,3 +528,7 @@ shape = SubResource("RectangleShape2D_gm5ev")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_4pm5f")
+
+[node name="CameraComponent" parent="." instance=ExtResource("7_8u6c2")]
+zoom = Vector2(4, 4)
+script = ExtResource("8_hkcsd")

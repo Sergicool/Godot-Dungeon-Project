@@ -40,9 +40,10 @@ RIGHT={
 
 [layer_names]
 
-2d_physics/layer_1="Entorno"
-2d_physics/layer_2="Jugador"
-2d_physics/layer_3="Enemigos"
+2d_physics/layer_1="Dungeon"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemies"
+2d_physics/layer_4="Capa 4"
 
 [rendering]
 

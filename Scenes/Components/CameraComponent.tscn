@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1vu7k5qppn40"]
+
+[sub_resource type="GDScript" id="GDScript_os2pj"]
+script/source = "extends Node
+class_name CameraComponent
+
+# Radio en el que la camara no se movera en direccion del raton
+@export var dead_Zone = 100
+# Variable que indica si la camara puede ser manipulada por el jugador (false para cinematicas, transicciones...)
+@export var player_control = true
+"
+
+[node name="CameraComponent" type="Camera2D"]
+script = SubResource("GDScript_os2pj")

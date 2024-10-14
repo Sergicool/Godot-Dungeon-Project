@@ -18,7 +18,6 @@ func spawn_entity(entity_type: String, spawn_position: Vector2) -> Node2D:
 		# La agregamos a la lista de entidades
 		entities.append(entity)
 		return entity
-		
 	return null
 
 # Devuelve la lista de entidades
