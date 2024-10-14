@@ -685,7 +685,6 @@ texture = ExtResource("1_j4wsg")
 10:12/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2su0c"]
-load_path = "res://.godot/imported/DungeonSpriteSheet32x32.png-351e2cec56b69378fdfd8d8f7bcea280.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1frfi"]
 texture = SubResource("CompressedTexture2D_2su0c")
