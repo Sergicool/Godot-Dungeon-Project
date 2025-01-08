@@ -17,6 +17,12 @@ Todo este codigo seria flexible para poder modificar:
 - Salas especiales para que minimo aparezca una de ellas en un piso (En este caso solo estaria hecha la sala inicial y final)
 - Podrias añadir mas salas predefinidas para incluirlas a la generacion...
 
+## Arte del proyecto
+
+En cuanto a los sprites fueron descargados desde [itch.io](https://itch.io/) de este [autor](https://snowhex.itch.io/). 
+
+Pero luego hice unos propios para sustituirlos y que se adaptase al estilo de juego que queria hacer los cuales no llegaron a implementarse correctamente.
+
 ## Descripción
 
 El juego es un proyecto pequeño que combina mecánicas simples para probar diferentes aspectos de Godot, como:
